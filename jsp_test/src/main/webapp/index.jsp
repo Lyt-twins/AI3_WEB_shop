@@ -18,8 +18,9 @@
 		<h1 class="display-5 fw-bold text-body-emphasis">메인화면</h1>
 		<div class="col-lg-6 mx-auto">
 			<p class="lead mb-4">Shop 쇼핑몰 입니다.</p>
-			<div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
-					
+			<div class="d-grid gap-3 d-flex justify-content-center">
+				<a href="<%= request.getContextPath() %>/shop/products.jsp" class="btn btn-secondary btn-lg">상품목록</a>
+				<a href="<%= request.getContextPath() %>/user/login.jsp" class="btn btn-light btn-lg">로그인</a>	
 			</div>
 		</div>
 	</div>
@@ -27,7 +28,6 @@
 	<jsp:include page="/layout/script.jsp" />
 </body>
 </html>
-
 
 
 

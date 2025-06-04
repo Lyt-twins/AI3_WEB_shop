@@ -10,6 +10,7 @@
 </head>
 <body>   
 	<% 
+		String rememberId = request.getParameter("rememberId");
 		String root = request.getContextPath();
 		String error = request.getParameter("error");
 		
