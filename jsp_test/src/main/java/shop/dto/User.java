@@ -1,6 +1,7 @@
 package shop.dto;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 
 public class User implements Serializable {
 	
@@ -102,6 +103,11 @@ public class User implements Serializable {
 				+ birth + ", mail=" + mail + ", phone=" + phone + ", address=" + address + ", registDay=" + registDay
 				+ "]";
 	}
-	
+
+	public void setRegistDay(Timestamp timestamp) {
+		// TODO Auto-generated method stub
+		
+	}
+
 
 }
