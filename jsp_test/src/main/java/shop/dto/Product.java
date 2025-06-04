@@ -154,6 +154,21 @@ public class Product implements Serializable {
 				+ unitsInStock + ", condition=" + condition + ", file=" + file + ", quantity=" + quantity + ", userId="
 				+ userId + ", orderNo=" + orderNo + ", type=" + type + "]";
 	}
+
+	public void setProductId(int int1) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void setPrice(int int1) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void setImageUrl(String string) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 
 }
