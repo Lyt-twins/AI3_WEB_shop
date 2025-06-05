@@ -15,7 +15,7 @@
 </head>
 <body>   
 	<% 
-
+		String root = request.getContextPath();
 		// ...
 	
 	
