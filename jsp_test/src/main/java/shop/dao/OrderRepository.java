@@ -42,7 +42,7 @@ public class OrderRepository extends JDBConnection {
 	 */
 	public int lastOrderNo() {
 		int orderNo = 0;
-		String sql = "SELECET MAX(oder_no)FROM`oder`";
+		String sql = "SELECT MAX(order_no)FROM`order`";
 		try {
 			 psmt = con.prepareStatement(sql);
 		        rs = psmt.executeQuery();
@@ -55,6 +55,24 @@ public class OrderRepository extends JDBConnection {
 		    return orderNo;
 		}
 	
+	
+		public int getNextOrderNo() {
+		    int nextOrderNo = 0;
+		    String sql = "SELECT IFNULL(MAX(order_no), 0) + 1 FROM `order`";  // MySQL 기준
+	
+		    try {
+		        psmt = con.prepareStatement(sql);
+		        rs = psmt.executeQuery();
+		        if (rs.next()) {
+		            nextOrderNo = rs.getInt(1);
+		        }
+		    } catch (SQLException e) {
+		        System.err.println(">>> 주문번호 생성 오류");
+		        e.printStackTrace();
+		    }
+	
+		    return nextOrderNo;
+		}
 
 	
 	/**

@@ -1,6 +1,5 @@
 package shop.dao;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,7 +48,10 @@ public class ProductRepository extends JDBConnection {
 	public List<Product> list(String keyword) {
 		 List<Product> products = new ArrayList<>();
 	        try {
-	            String sql = "SELECT * FROM product WHERE name LIKE ?";
+	        	String sql = """
+	        		    SELECT * FROM product
+	        		    WHERE name LIKE ? OR description LIKE ? OR manufacturer LIKE ? OR category LIKE ?
+	        				""";
 	            psmt = con.prepareStatement(sql);
 	            psmt.setString(1, "%" + keyword + "%");
 	            rs = psmt.executeQuery();
@@ -136,13 +138,13 @@ public class ProductRepository extends JDBConnection {
 	            psmt.setInt(10, product.getQuantity());
 
 	            result = psmt.executeUpdate();
+	            System.out.println(">>> insert result: " + result);
 	        } catch (Exception e) {
 	            System.err.println(">>> 상품 등록 실패");
 	            e.printStackTrace();
 	        }
 	        return result;
 	}
-	
 	
 	/**
 	 * 상품 수정
@@ -198,6 +200,21 @@ public class ProductRepository extends JDBConnection {
 	        }
 	        return result;
 	    }
+	
+	public int decreaseStock(String productId, int amount) {
+	    int result = 0;
+	    String sql = "UPDATE product SET units_in_stock = units_in_stock - ? WHERE product_id = ?";
+	    try {
+	        psmt = con.prepareStatement(sql);
+	        psmt.setInt(1, amount);
+	        psmt.setString(2, productId);
+	        result = psmt.executeUpdate();
+	    } catch (Exception e) {
+	        System.err.println(">>> 재고 감소 실패");
+	        e.printStackTrace();
+	    }
+	    return result;
+	}
 	
 	}
 

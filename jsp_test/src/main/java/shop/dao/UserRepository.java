@@ -15,7 +15,7 @@ public class UserRepository extends JDBConnection {
 	 */
 	public int insert(User user) {
 		 int result = 0;
-	        String sql = "INSERT INTO user (id, password, name, gender, birth, mail, phone, address) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+		 String sql = "INSERT INTO user (id, password, name, gender, birthday, mail, phone, address) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 	        try {
 	            psmt = con.prepareStatement(sql);
 	            psmt.setString(1, user.getId());

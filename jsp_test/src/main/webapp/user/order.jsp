@@ -16,13 +16,23 @@
 <body>   
 	<% 
 		String root = request.getContextPath();
+		// 로그인 여부 확인
+	    User loginUser = (User) session.getAttribute("loginUser");
+	    boolean login = (loginUser != null);
 		// ...
 	
 	
-		// 주문 내역 목록을 세션에서 가져오기
+	    String orderPhone = (String) request.getAttribute("orderPhone");
+	    List<Product> orderList = new ArrayList<>();
+   		int orderCount = 0;
 		
-		// 회원인 경우
-		
+
+
+    	if (login) {
+        OrderRepository orderDAO = new OrderRepository();
+        orderList = orderDAO.list(loginUser.getId());  // ← 수정된 부분
+        orderCount = (orderList != null) ? orderList.size() : 0;
+    	}
 		
 	%>
 	
@@ -34,20 +44,19 @@
 			    <ul class="nav nav-pills flex-column mb-auto">
 			      <!-- 로그인 시 -->
 			      <% if( login ) { %>
-			      <li class="nav-item">
+		    	  <li class="nav-item">
 			        <a href="<%= root %>/user/index.jsp" class="nav-link link-body-emphasis">
 			          마이 페이지
 			        </a>
 			      </li>
 			      <li class="nav-item">
-			        <a href="<%= root %>/user/update.jsp" class="nav-link link-body-emphasis">
+			        <a href="<%= root %>/user/update.jsp" class="nav-link active">
 			          회원정보 수정
 			        </a>
 			      </li>
-			      <% }  %>
-			      
+			      <% } %>
 			      <li>
-			        <a href="#" class="nav-link active" aria-current="page" >
+			        <a href="#" class="nav-link link-body-emphasis" aria-current="page">
 			          주문내역
 			        </a>
 			      </li>

@@ -1,5 +1,40 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    	<script>
+		function validateForm() {
+			const form = document.joinForm;
+			const id = form.id.value.trim();
+			const pw = form.pw.value.trim();
+			const pwConfirm = form.pw_confirm.value.trim();
+			const name = form.name.value.trim();
+
+			const idPattern = /^[a-zA-Z가-힣][a-zA-Z0-9가-힣]*$/;
+			const pwPattern = /^(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{6,}$/;
+			const namePattern = /^[가-힣]+$/;
+
+			if (!idPattern.test(id)) {
+				alert("아이디는 영문자 또는 한글로 시작해야 합니다.");
+				form.id.focus();
+				return false;
+			}
+			if (!pwPattern.test(pw)) {
+				alert("비밀번호는 영문자, 숫자, 특수문자를 포함하고 6자 이상이어야 합니다.");
+				form.pw.focus();
+				return false;
+			}
+			if (pw !== pwConfirm) {
+				alert("비밀번호와 비밀번호 확인이 일치하지 않습니다.");
+				form.pw_confirm.focus();
+				return false;
+			}
+			if (!namePattern.test(name)) {
+				alert("이름은 한글만 입력 가능합니다.");
+				form.name.focus();
+				return false;
+			}
+			return true;
+		}
+	</script>
 <!DOCTYPE html>
 <html>
 <head>

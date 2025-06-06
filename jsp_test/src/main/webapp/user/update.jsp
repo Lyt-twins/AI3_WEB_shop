@@ -106,6 +106,13 @@
 					</div>
 					
 					<div class="input-group mb-3 row">
+						<label class="input-group-text col-md-2" id="">비밀번호</label>
+						<input type="password" class="form-control col-md-10" 
+		  						 name="password" placeholder="비밀번호를 입력해주세요" required 
+		  						 value="<%= loginUser.getPassword() %>"/>
+					</div>
+					
+					<div class="input-group mb-3 row">
 						<label class="input-group-text col-md-2" id="">이름</label>
 						<input type="text" class="form-control col-md-10" 
 							   name="name" placeholder="이름" required

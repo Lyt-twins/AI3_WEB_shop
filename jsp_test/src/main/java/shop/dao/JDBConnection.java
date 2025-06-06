@@ -1,9 +1,6 @@
 package shop.dao;
 
-import java.io.FileReader;
-import java.io.Reader;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -26,11 +23,12 @@ public class JDBConnection {
 		// JDBC 드라이버 로드
 		// MySQL
 		try {
-			ClassLoader classLoader = JDBConnection.class.getClassLoader();
-	        String projectRootPath = classLoader.getResource("").getPath();
-			Reader reader = new FileReader(projectRootPath + "/db.properties");
+            InputStream input = getClass().getClassLoader().getResourceAsStream("/db.properties");
+            if (input == null) {
+                throw new RuntimeException("db.properties 파일을 찾을 수 없습니다.");
+            }
 			Properties properties = new Properties();
-			properties.load(reader);
+			properties.load(input);
 			
 			String driver = properties.getProperty("driver");
 			String url = properties.getProperty("url");
