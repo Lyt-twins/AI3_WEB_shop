@@ -1,18 +1,30 @@
 <%-- <%@ include file="/layout/jstl.jsp" %> --%>
 <%-- <%@ include file="/layout/common.jsp" %> --%>
+<%@page import="shop.dao.ProductRepository"%>
 <%@page import="shop.dto.Product"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-   	<%
+<%
+    // context path
     String root = request.getContextPath();
 
-    // 상품 객체를 request에서 가져옴
-    Product product = (Product) request.getAttribute("product");
+    // 전달받은 상품 ID 파라미터
+    String productId = request.getParameter("id");
+
+    // productId 유효성 검사 및 상품 조회
+    if (productId == null || productId.trim().isEmpty()) {
+        response.sendRedirect(root + "/shop/products.jsp");
+        return;
+    }
+
+    ProductRepository repo = new ProductRepository();
+    Product product = repo.getProductById(productId);
+
     if (product == null) {
         response.sendRedirect(root + "/shop/products.jsp");
         return;
     }
-	%>
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -29,17 +41,17 @@
 		<div class="col-lg-6 mx-auto">
 		<p class="lead mb-4">Shop 쇼핑몰 입니다.</p>
 		<div class="d-grid gap-2 d-md-flex justify-content-sm-center">
-			<a href="<%= request.getContextPath() %>/shop/products.jsp" class="btn btn-primary btn-lg px-4 gap-3">상품목록</a>
+			<a href="<%= root %>/shop/products.jsp" class="btn btn-primary btn-lg px-4 gap-3">상품목록</a>
 		</div>
 		</div>
 	</div>
 	<div class="container">
 		<div class="row">
 			<div class="col-md-6">
-			<img src="<%= request.getContextPath() %>/static/img/JAVA.jpg" class="w-100 p-2">
+			<img src="<%= root %>/static/img/<%= product.getFile() %>" class="w-100 p-2" alt="<%= product.getName() %>">
 			</div>
 			<div class="col-md-6">
-				<h3 class="mb-5">null</h3>
+				<h3 class="mb-5"><%= product.getName() %></h3>
 				<table class="table table-bordered align-middle">
 				<colgroup>
 				<col width="120px">
@@ -60,7 +72,7 @@
                     <input type="hidden" name="quantity" value="1"><!-- 기본 수량 1개 -->
 				<div class="btn-box d-flex justify-content-end">
 				<a href="./cart.jsp" class="btn btn-lg btn-warning mx-3">장바구니</a>
-				<a href="javascript:;" class="btn btn-lg btn-success mx-3" onclick="addToCart()">주문하기</a>
+				<a href="<%= request.getContextPath() %>/shop/addCart.jsp?productId=<%= product.getProductId() %>" class="btn btn-lg btn-success mx-3" onclick="addToCart()">주문하기</a>
 				</div>
 				</form>
 				</div>

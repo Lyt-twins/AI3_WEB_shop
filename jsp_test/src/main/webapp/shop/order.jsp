@@ -7,6 +7,12 @@
 	String root = request.getContextPath();
 	Ship ship = (Ship) session.getAttribute("ship");
 	String userId = (String) session.getAttribute("userId"); // 로그인 회원의 아이디 (null이면 비회원)
+	
+	if (ship == null) {
+	    // 배송 정보가 없을 경우 다시 배송 입력 페이지로
+	    response.sendRedirect(root + "/shop/ship.jsp?error=no_ship");
+	    return;
+	}
 	%>
 <!DOCTYPE html>
 <html>

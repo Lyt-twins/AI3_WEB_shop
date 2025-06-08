@@ -1,4 +1,7 @@
 <!-- 로그인 처리 -->
+<%@page import="java.util.Date"%>
+<%@page import="shop.dao.PersistentLoginRepository"%>
+<%@page import="shop.dto.PersistentLogin"%>
 <%@page import="java.util.UUID"%>
 <%@page import="java.net.URLEncoder"%>
 <%@page import="shop.dto.User"%>
@@ -42,6 +45,15 @@
     if ("on".equals(rememberMe)) {
         String token = userDAO.refreshToken(id);
 
+        // DB에 자동 로그인 정보 저장
+        PersistentLoginRepository plRepo = new PersistentLoginRepository();
+        PersistentLogin login = new PersistentLogin();
+        login.setUserId(id);
+        login.setToken(token);
+        login.setDate(new Date());
+        plRepo.insert(login); // ⬅ DB insert
+
+        // 쿠키 저장
         Cookie tokenCookie = new Cookie("token", token);
         tokenCookie.setMaxAge(60 * 60 * 24 * 30); // 30일
         response.addCookie(tokenCookie);

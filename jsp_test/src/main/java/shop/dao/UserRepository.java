@@ -190,7 +190,7 @@ public class UserRepository extends JDBConnection {
 	        	persistentLogin.setpNo( rs.getInt("p_no")); 
 	        	persistentLogin.setUserId( rs.getString("user_id") ); 
 	        	persistentLogin.setToken( rs.getString("token") ); 
-	        	persistentLogin.setDate( rs.getTimestamp("token") ); 
+	        	persistentLogin.setDate(rs.getTimestamp("date")); 
 	        }
 	        rs.close();
 	    } catch (SQLException e) {

@@ -4,8 +4,8 @@
     pageEncoding="UTF-8"%>
     
 <%
-	List<Product> cartList = (List<Product>) session.getAttribute("cartList");
-	int cartCount = cartList == null ? 0 : cartList.size();
+	List<Product> cart = (List<Product>) session.getAttribute("cart");
+	int cartCount = cart == null ? 0 : cart.size();
 	
 	String root = request.getContextPath();
 	

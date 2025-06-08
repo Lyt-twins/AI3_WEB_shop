@@ -48,13 +48,17 @@ public class ProductRepository extends JDBConnection {
 	public List<Product> list(String keyword) {
 		 List<Product> products = new ArrayList<>();
 	        try {
-	        	String sql = """
-	        		    SELECT * FROM product
-	        		    WHERE name LIKE ? OR description LIKE ? OR manufacturer LIKE ? OR category LIKE ?
-	        				""";
-	            psmt = con.prepareStatement(sql);
-	            psmt.setString(1, "%" + keyword + "%");
-	            rs = psmt.executeQuery();
+	            String sql = """
+	                    SELECT * FROM product
+	                    WHERE name LIKE ? OR description LIKE ? OR manufacturer LIKE ? OR category LIKE ?
+	                """;
+	                psmt = con.prepareStatement(sql);
+	                psmt.setString(1, "%" + keyword + "%");
+	                psmt.setString(2, "%" + keyword + "%");
+	                psmt.setString(3, "%" + keyword + "%");
+	                psmt.setString(4, "%" + keyword + "%");
+
+	                rs = psmt.executeQuery();
 
 	            while (rs.next()) {
 	                Product product = new Product();

@@ -21,7 +21,7 @@
 
     <!-- 입력 폼 -->
     <div class="container" style="max-width: 800px;">
-        <form action="<%= root %>/shop/order.jsp" method="post">
+        <form action="<%= root %>/shop/ship_pro.jsp" method="post">
             <div class="mb-3">
                 <label class="form-label">성명</label>
                 <input type="text" class="form-control" name="shipName" required>

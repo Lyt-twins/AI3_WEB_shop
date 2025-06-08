@@ -41,6 +41,7 @@
 		int total = 0;
 		for (Product product : cart) {
 		    total += product.getUnitPrice() * product.getQuantity();
+		    session.setAttribute("total", total);
 		%>
 		<tr>
 		  <td><%= product.getName() %></td>
@@ -48,7 +49,7 @@
 		  <td><%= product.getQuantity() %></td>
 		  <td><%= product.getUnitPrice() * product.getQuantity() %></td>
 		  <td>
-		    <a href="./deleteCart.jsp?productId=<%= product.getProductId() %>" class="btn btn-sm btn-danger">삭제</a>
+		    <a href="<%= request.getContextPath() %>/shop/deleteCart.jsp?id=<%= product.getProductId() %>" class="btn btn-sm btn-danger">삭제</a>
 		  </td>
 		</tr>
 		<% } %>
@@ -61,7 +62,7 @@
 		</tfoot>
 	</table>
 	<div class="d-flex justify-content-between align-items-center p-3">
-		<a href="deleteCart.jsp?cartId=88AF33B2AC6076F3D761D5C636CFDF00" class="btn btn-lg btn-danger ">전체삭제</a>
+		<a href="<%= request.getContextPath() %>/shop/deleteCart.jsp" class="btn btn-lg btn-danger ">전체삭제</a>
 		<a href="javascript:;" class="btn btn-lg btn-secondary" onclick="order()">주문하기</a>
 	</div>
 	</div>

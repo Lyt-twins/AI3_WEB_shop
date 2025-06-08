@@ -6,19 +6,12 @@
 <%@page import="shop.dto.User"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-<head>
-	<meta charset="UTF-8">
-	<title>Shop</title>
-	<jsp:include page="/layout/meta.jsp" /> <jsp:include page="/layout/link.jsp" />
-</head>
-<body>   
-	<% 
+    <%= session.getAttribute("loginId") %>
+		<% 
 		String root = request.getContextPath();
 		// 로그인 여부 확인
-	    User loginUser = (User) session.getAttribute("loginUser");
-	    boolean login = (loginUser != null);
+	  	String loginId = (String) session.getAttribute("loginId");
+		boolean login = (loginId != null && !loginId.isEmpty());
 		// ...
 	
 	
@@ -28,14 +21,21 @@
 		
 
 
-    	if (login) {
-        OrderRepository orderDAO = new OrderRepository();
-        orderList = orderDAO.list(loginUser.getId());  // ← 수정된 부분
-        orderCount = (orderList != null) ? orderList.size() : 0;
-    	}
+   		if (login) {
+  		    OrderRepository orderDAO = new OrderRepository();
+  		    orderList = orderDAO.list(loginId);  // ← loginId로 변경
+   		    orderCount = (orderList != null) ? orderList.size() : 0;
+   		}
 		
 	%>
-	
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Shop</title>
+	<jsp:include page="/layout/meta.jsp" /> <jsp:include page="/layout/link.jsp" />
+</head>
+<body>   
 	<jsp:include page="/layout/header.jsp" />
 	
 	<div class="row m-0 mypage">
@@ -50,13 +50,13 @@
 			        </a>
 			      </li>
 			      <li class="nav-item">
-			        <a href="<%= root %>/user/update.jsp" class="nav-link active">
+			        <a href="<%= root %>/user/update.jsp" class="nav-link link-body-emphasis">
 			          회원정보 수정
 			        </a>
 			      </li>
 			      <% } %>
 			      <li>
-			        <a href="#" class="nav-link link-body-emphasis" aria-current="page">
+			        <a href="#" class="nav-link active link-body-emphasis" aria-current="page">
 			          주문내역
 			        </a>
 			      </li>

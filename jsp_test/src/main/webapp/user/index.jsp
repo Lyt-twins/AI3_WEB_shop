@@ -24,12 +24,12 @@
 			      <!-- 로그인 시 -->
 			      <% if( login ) { %>
 		    	  <li class="nav-item">
-			        <a href="<%= root %>/user/update.jsp" class="nav-link link-body-emphasis" aria-current="page">
+			        <a href="<%= root %>/user/update.jsp" class="nav-link active link-body-emphasis" aria-current="page">
 			          마이 페이지
 			        </a>
 			      </li>
 			      <li class="nav-item">
-			        <a href="<%= root %>/user/update.jsp" class="nav-link active">
+			        <a href="<%= root %>/user/update.jsp" class="nav-link link-body-emphasis">
 			          회원정보 수정
 			        </a>
 			      </li>

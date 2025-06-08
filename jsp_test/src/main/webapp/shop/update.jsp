@@ -11,23 +11,24 @@
 	<jsp:include page="/layout/meta.jsp" />
 	<jsp:include page="/layout/link.jsp" />
 	<%-- [Contents] ######################################################### --%>
-	<%
-	String root = request.getContextPath();
-	String id = request.getParameter("id");
-	
-	if (id == null || id.isEmpty()) {
-	    response.sendRedirect(root + "/shop/products.jsp");
-	    return;
-	}
-	
-	ProductRepository repo = new ProductRepository();
-	Product product = repo.getProductById(id);
-	
-	if (product == null) {
-	    out.println("<script>alert('해당 상품을 찾을 수 없습니다.'); location.href='" + root + "/shop/products.jsp';</script>");
-	    return;
-	}
-	%>
+<%
+    String root = request.getContextPath();
+    String id = request.getParameter("id");
+    System.out.println("넘어온 id = " + id);
+
+    if (id == null || id.trim().isEmpty()) {
+        response.sendRedirect(root + "/shop/products.jsp");
+        return;
+    }
+
+    ProductRepository repo = new ProductRepository();
+    Product product = repo.getProductById(id);
+
+    if (product == null) {
+        out.println("<script>alert('해당 상품을 찾을 수 없습니다.'); location.href='" + root + "/shop/products.jsp';</script>");
+        return;
+    }
+%>
 </head>
 <body>
 	<jsp:include page="/layout/header.jsp" />
@@ -40,7 +41,7 @@
 </div>
 
 <div class="container" style="max-width: 850px;">
-    <form name="product" action="./update_pro.jsp" method="post" enctype="multipart/form-data">
+    <form name="product" action="<%= request.getContextPath() %>/shop/update_pro"  method="post" enctype="multipart/form-data">
         <input type="hidden" name="productId" value="<%= product.getProductId() %>">
 
         <div class="mb-3 text-center">

@@ -17,6 +17,8 @@ import jakarta.servlet.http.HttpFilter;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import shop.dao.UserRepository;
+import shop.dto.User;
 
 /**
  * Servlet Filter implementation class LoginFilter
@@ -58,8 +60,13 @@ public class LoginFilter extends HttpFilter implements Filter {
 
                     if (rs.next()) {
                         String loginId = rs.getString("user_id");
+
+                        UserRepository userRepo = new UserRepository();
+                        User loginUser = userRepo.getUserById(loginId);
+
                         session = request.getSession(true);
                         session.setAttribute("loginId", loginId);
+                        session.setAttribute("loginUser", loginUser);
                     }
 
                     rs.close();

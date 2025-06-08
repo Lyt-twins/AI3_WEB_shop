@@ -39,7 +39,7 @@
 	          	<p class="card-text"><%= product.getDescription() %></p>
 	         	 <p class="text-end price">$<%= product.getUnitPrice() %></p>
 	         	 <div class="d-flex justify-content-end">
-	            <a href="<%= root %>/shop/update.jsp?id=<%= product.getProductId() %>" class="btn btn-secondary mx-2">수정</a>
+	            <a href="<%= request.getContextPath() %>/shop/update.jsp?id=<%= product.getProductId() %>"  class="btn btn-secondary mx-2">수정</a>
 	            <a href="javascript:;" class="btn btn-danger mx-2" onclick="deleteProduct('<%= product.getProductId() %>')">삭제</a>
 	          	</div>
 	        </div>

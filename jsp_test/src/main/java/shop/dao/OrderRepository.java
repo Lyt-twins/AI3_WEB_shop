@@ -42,7 +42,7 @@ public class OrderRepository extends JDBConnection {
 	 */
 	public int lastOrderNo() {
 		int orderNo = 0;
-		String sql = "SELECT MAX(order_no)FROM`order`";
+		String sql = "SELECT MAX(order_no)FROM `order`";
 		try {
 			 psmt = con.prepareStatement(sql);
 		        rs = psmt.executeQuery();
@@ -80,30 +80,34 @@ public class OrderRepository extends JDBConnection {
 	 * @param userId
 	 * @return
 	 */
-	public List<Product> list(String userId) {
-		 List<Product> products = new ArrayList<>();
-		    String sql = "SELECT p.* FROM `order` o "
-		               + "JOIN order_item oi ON o.order_no = oi.order_no "
-		               + "JOIN product p ON oi.product_id = p.product_id "
-		               + "WHERE o.user_id = ?";
+		public List<Product> list(String userId) {
+		    List<Product> list = new ArrayList<>();
+		    String sql = "SELECT o.order_no, p.name, p.unit_price, oi.quantity " +
+		                 "FROM `order` o " +  // ← 수정됨
+		                 "JOIN order_item oi ON o.order_no = oi.order_no " +
+		                 "JOIN product p ON oi.product_id = p.product_id " +
+		                 "WHERE o.user_id = ?";
+
 		    try {
 		        psmt = con.prepareStatement(sql);
 		        psmt.setString(1, userId);
 		        rs = psmt.executeQuery();
+
 		        while (rs.next()) {
 		            Product p = new Product();
-		            p.setProductId(rs.getInt("product_id"));
+		            p.setOrderNo(rs.getInt("order_no"));
 		            p.setName(rs.getString("name"));
-		            p.setPrice(rs.getInt("price"));
-		            p.setImageUrl(rs.getString("image_url"));
-		            // 필요한 필드 추가
-		            products.add(p);
+		            p.setUnitPrice(rs.getInt("unit_price"));
+		            p.setQuantity(rs.getInt("quantity"));
+		            list.add(p);
 		        }
 		    } catch (SQLException e) {
+		        System.err.println("주문 목록 조회 중 에러 발생");
 		        e.printStackTrace();
 		    }
-		    return products;
-	}
+
+		    return list;
+		}
 	
 	/**
 	 * 주문 내역 조회 - 비회원
@@ -111,32 +115,40 @@ public class OrderRepository extends JDBConnection {
 	 * @param orderPw
 	 * @return
 	 */
-	public List<Product> list(String phone, String orderPw) {
-		
-		 List<Product> products = new ArrayList<>();
-		    String sql = "SELECT p.* FROM `order` o "
-		               + "JOIN order_item oi ON o.order_no = oi.order_no "
-		               + "JOIN product p ON oi.product_id = p.product_id "
-		               + "WHERE o.phone = ? AND o.order_pw = ?";
+		public List<Product> list(String phone, String orderPw) {
+		    List<Product> list = new ArrayList<>();
+
+		    String sql = """
+		        SELECT oi.order_no, oi.quantity, p.product_id, p.name, p.unit_price
+		        FROM order_item oi
+		        JOIN product p ON oi.product_id = p.product_id
+		        JOIN `order` o ON oi.order_no = o.order_no
+		        WHERE o.phone = ? AND o.order_pw = ?
+		        ORDER BY oi.order_no DESC
+		    """;
+
 		    try {
 		        psmt = con.prepareStatement(sql);
 		        psmt.setString(1, phone);
 		        psmt.setString(2, orderPw);
 		        rs = psmt.executeQuery();
+
 		        while (rs.next()) {
 		            Product p = new Product();
-		            p.setProductId(rs.getInt("product_id"));
+		            p.setOrderNo(rs.getInt("order_no"));
+		            p.setProductId(rs.getString("product_id"));
 		            p.setName(rs.getString("name"));
-		            p.setPrice(rs.getInt("price"));
-		            p.setImageUrl(rs.getString("image_url"));
-		            products.add(p);
+		            p.setUnitPrice(rs.getInt("unit_price"));
+		            p.setQuantity(rs.getInt("quantity"));
+		            list.add(p);
 		        }
+
 		    } catch (SQLException e) {
 		        e.printStackTrace();
 		    }
-		    return products;
-		
-	}
+
+		    return list;
+		}
 	}
 	
 
